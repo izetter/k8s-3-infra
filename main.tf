@@ -33,8 +33,8 @@ resource "aws_subnet" "public_1a" {
   map_public_ip_on_launch = true
   tags = {
     Name                        = "eks-subnet-public-1a"
-    "kubernetes.io/cluster/eks" = "shared"
-    "kubernetes.io/role/elb"    = 1
+    "kubernetes.io/cluster/eks" = "shared" # Allow EKS to discover and use this subnet
+    "kubernetes.io/role/elb"    = 1        # Indicates EKS that subnet is public and can be used with public LB
   }
 }
 
@@ -57,7 +57,7 @@ resource "aws_subnet" "private_1a" {
   tags = {
     Name                              = "eks-subnet-private-1a"
     "kubernetes.io/cluster/eks"       = "shared"
-    "kubernetes.io/role/internal-elb" = 1
+    "kubernetes.io/role/internal-elb" = 1     # Indicates EKS that subnet is private and can be used with private LB
   }
 }
 

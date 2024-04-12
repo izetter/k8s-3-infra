@@ -103,3 +103,68 @@ resource "aws_nat_gateway" "nat_gw1b" {
     Name = "eks-NAT-GW-1b"
   }
 }
+
+
+# Route Tables ================================================================
+
+resource "aws_route_table" "public_rt" {
+  vpc_id = aws_vpc.eks_vpc.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.eks_igw.id
+  }
+
+  tags = {
+    Name = "eks-PublicRT"
+  }
+}
+
+resource "aws_route_table" "private_rt_1a" {
+  vpc_id = aws_vpc.eks_vpc.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.nat_gw1a.id
+  }
+
+  tags = {
+    Name = "eks-PrivateRT-1a"
+  }
+}
+
+resource "aws_route_table" "private_rt_1b" {
+  vpc_id = aws_vpc.eks_vpc.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.nat_gw1b.id
+  }
+
+  tags = {
+    Name = "eks-PrivateRT-1b"
+  }
+}
+
+
+# Route Table Associations ================================================================
+
+resource "aws_route_table_association" "public1a" {
+  subnet_id = aws_subnet.public_1a.id
+  route_table_id = aws_route_table.public_rt.id
+}
+
+resource "aws_route_table_association" "public1b" {
+  subnet_id = aws_subnet.public_1b.id
+  route_table_id = aws_route_table.public_rt.id
+}
+
+resource "aws_route_table_association" "private1a" {
+  subnet_id = aws_subnet.private_1a.id
+  route_table_id = aws_route_table.private_rt_1a.id
+}
+
+resource "aws_route_table_association" "private1b" {
+  subnet_id = aws_subnet.private_1b.id
+  route_table_id = aws_route_table.private_rt_1b.id
+}

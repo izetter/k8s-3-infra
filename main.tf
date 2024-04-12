@@ -65,3 +65,41 @@ resource "aws_subnet" "private_1b" {
     "kubernetes.io/role/internal-elb" = 1
   }
 }
+
+
+# EIP ================================================================
+
+resource "aws_eip" "nat1a" {
+  domain     = "vpc"
+  depends_on = [aws_internet_gateway.eks_igw]
+  tags = {
+    Name = "eks-eip-NAT-1a"
+  }
+}
+
+resource "aws_eip" "nat1b" {
+  domain     = "vpc"
+  depends_on = [aws_internet_gateway.eks_igw]
+  tags = {
+    Name = "eks-eip-NAT-1b"
+  }
+}
+
+
+# NAT Gateways ================================================================
+
+resource "aws_nat_gateway" "nat_gw1a" {
+  allocation_id = aws_eip.nat1a.id
+  subnet_id     = aws_subnet.public_1a.id
+  tags = {
+    Name = "eks-NAT-GW-1a"
+  }
+}
+
+resource "aws_nat_gateway" "nat_gw1b" {
+  allocation_id = aws_eip.nat1b.id
+  subnet_id     = aws_subnet.public_1b.id
+  tags = {
+    Name = "eks-NAT-GW-1b"
+  }
+}

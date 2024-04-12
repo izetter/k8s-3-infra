@@ -12,6 +12,31 @@ variable "vpc_cidr" {
   default     = "13.0.0.0/16"
 }
 
+variable "cidr_public_1a" {
+  description = "CIDR block for public subnet 1a"
+  type        = string
+  default     = "13.0.0.0/20"
+}
+
+variable "cidr_public_1b" {
+  description = "CIDR block for public subnet 1b"
+  type        = string
+  default     = "13.0.16.0/20"
+}
+
+variable "cidr_private_1a" {
+  description = "CIDR block for private subnet 1a"
+  type        = string
+  default     = "13.0.32.0/20"
+}
+
+variable "cidr_private_1b" {
+  description = "CIDR block for private subnet 1a"
+  type        = string
+  default     = "13.0.48.0/20"
+}
+
+
 
 # EKS ================================================
 

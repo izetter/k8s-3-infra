@@ -22,7 +22,9 @@ resource "aws_internet_gateway" "eks_igw" {
 
 # String interpolation in attribute property names seems to not be supported,
 # they must be constant. So tags for kubernetes remain hard-coded for now,
-# but test it later https://github.com/hashicorp/terraform/issues/14516
+# but later test if it works https://github.com/hashicorp/terraform/issues/14516
+# Also later test that `kubernetes.io/cluster/eks` may not be neccessary anymore:
+# https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html
 
 resource "aws_subnet" "public_1a" {
   vpc_id                  = aws_vpc.eks_vpc.id

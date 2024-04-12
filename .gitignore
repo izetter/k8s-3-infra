@@ -1,3 +1,5 @@
+# For demo purposes, some files that would normally be ignored are included.
+
 .terraform/
 *.tfstate.*
 *.tfstate
